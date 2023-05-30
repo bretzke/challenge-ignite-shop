@@ -10,6 +10,8 @@ import { stripe } from "../lib/stripe";
 import Stripe from "stripe";
 
 import { HomeContainer, Product } from "../styles/pages/home";
+import { Bag } from "phosphor-react";
+import { MouseEvent } from "react";
 
 interface HomeProps {
   products: {
@@ -28,6 +30,13 @@ export default function Home({ products }: HomeProps) {
     },
   });
 
+  function handleAddProductToCart(
+    e: MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
+    console.log("adicionou");
+  }
+
   return (
     <>
       <Head>
@@ -45,8 +54,16 @@ export default function Home({ products }: HomeProps) {
               <Image src={product.imageUrl} width={520} height={480} alt="" />
 
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={(event: any) => handleAddProductToCart(event)}
+                >
+                  <Bag />
+                </button>
               </footer>
             </Product>
           </Link>

@@ -47,10 +47,25 @@ export const Product = styled("div", {
     opacity: 0,
     transition: "all 0.2s ease-in-out",
 
-    span: {
-      fontSize: "$xl",
-      fontWeight: "bold",
-      color: "$green300",
+    div: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8,
+
+      span: {
+        fontSize: "$xl",
+        fontWeight: "bold",
+        color: "$green300",
+      },
+    },
+
+    button: {
+      padding: 12,
+
+      svg: {
+        color: "$white",
+        fontSize: "$xl",
+      },
     },
   },
 
