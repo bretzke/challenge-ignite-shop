@@ -19,9 +19,7 @@ export const globalStyles = globalCss({
   },
 
   button: {
-    backgroundColor: "$green500",
     border: 0,
-    color: "$white",
     borderRadius: 8,
     padding: "1.25rem",
     cursor: "pointer",
@@ -29,13 +27,18 @@ export const globalStyles = globalCss({
     fontSize: "$md",
     transition: "all 0.2s",
 
-    "&:disabled": {
-      opacity: 0.6,
-      cursor: "not-allowed",
-    },
+    "&.primary": {
+      backgroundColor: "$green500",
+      color: "$white",
 
-    "&:not(:disabled):hover": {
-      backgroundColor: "$green300",
+      "&:disabled": {
+        opacity: 0.6,
+        cursor: "not-allowed",
+      },
+
+      "&:not(:disabled):hover": {
+        backgroundColor: "$green300",
+      },
     },
   },
 });

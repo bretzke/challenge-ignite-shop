@@ -71,6 +71,7 @@ export default function Product({ product }: ProductProps) {
           <p>{product.description}</p>
 
           <button
+            className="primary"
             onClick={handleBuyProduct}
             disabled={isCreatingCheckoutSession}
           >

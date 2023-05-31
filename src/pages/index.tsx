@@ -11,7 +11,8 @@ import Stripe from "stripe";
 
 import { HomeContainer, Product } from "../styles/pages/home";
 import { Bag } from "phosphor-react";
-import { MouseEvent } from "react";
+import { MouseEvent, useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
 interface HomeProps {
   products: {
@@ -23,6 +24,9 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addProductToCart, checkIfItemAlreadyExists } =
+    useContext(CartContext);
+
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -31,10 +35,11 @@ export default function Home({ products }: HomeProps) {
   });
 
   function handleAddProductToCart(
-    e: MouseEvent<HTMLButtonElement, MouseEvent>
+    e: MouseEvent<HTMLButtonElement>,
+    id: string
   ) {
     e.preventDefault();
-    console.log("adicionou");
+    addProductToCart(id);
   }
 
   return (
@@ -58,9 +63,11 @@ export default function Home({ products }: HomeProps) {
                   <strong>{product.name}</strong>
                   <span>{product.price}</span>
                 </div>
+
                 <button
-                  type="button"
-                  onClick={(event: any) => handleAddProductToCart(event)}
+                  className="primary"
+                  disabled={checkIfItemAlreadyExists(product.id)}
+                  onClick={(e) => handleAddProductToCart(e, product.id)}
                 >
                   <Bag />
                 </button>
