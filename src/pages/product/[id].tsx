@@ -57,7 +57,7 @@ export default function Product({ product }: ProductProps) {
           <button
             className="primary"
             onClick={() => addProductToCart(product.defaultPriceId)}
-            disabled={checkIfItemAlreadyExists(product.id)}
+            disabled={checkIfItemAlreadyExists(product.defaultPriceId)}
           >
             Colocar na sacola
           </button>

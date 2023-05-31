@@ -5,8 +5,10 @@ import { useContext, useState } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import { HeaderContainer } from "../../styles/components/Header";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export function Header() {
+  const { pathname } = useRouter();
   const { cart } = useContext(CartContext);
 
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
@@ -35,13 +37,15 @@ export function Header() {
         <Image src={logoImg} alt="Logo Ignite Shop"></Image>
       </Link>
 
-      <button
-        disabled={!cart.length || isCreatingCheckoutSession}
-        onClick={handleBuyProduct}
-      >
-        Finalizar compra
-        {!!cart.length && <div>{cart.length}</div>}
-      </button>
+      {pathname !== "/success" && (
+        <button
+          disabled={!cart.length || isCreatingCheckoutSession}
+          onClick={handleBuyProduct}
+        >
+          Finalizar compra
+          {!!cart.length && <div>{cart.length}</div>}
+        </button>
+      )}
     </HeaderContainer>
   );
 }
