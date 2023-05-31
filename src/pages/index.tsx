@@ -20,6 +20,7 @@ interface HomeProps {
     name: string;
     imageUrl: string;
     price: string;
+    defaultPriceId: string;
   }[];
 }
 
@@ -36,10 +37,10 @@ export default function Home({ products }: HomeProps) {
 
   function handleAddProductToCart(
     e: MouseEvent<HTMLButtonElement>,
-    id: string
+    defaultPriceId: string
   ) {
     e.preventDefault();
-    addProductToCart(id);
+    addProductToCart(defaultPriceId);
   }
 
   return (
@@ -66,8 +67,10 @@ export default function Home({ products }: HomeProps) {
 
                 <button
                   className="primary"
-                  disabled={checkIfItemAlreadyExists(product.id)}
-                  onClick={(e) => handleAddProductToCart(e, product.id)}
+                  disabled={checkIfItemAlreadyExists(product.defaultPriceId)}
+                  onClick={(e) =>
+                    handleAddProductToCart(e, product.defaultPriceId)
+                  }
                 >
                   <Bag />
                 </button>
@@ -91,6 +94,7 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
+      defaultPriceId: price.id,
       price: new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",

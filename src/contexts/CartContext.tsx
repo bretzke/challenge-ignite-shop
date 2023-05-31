@@ -2,9 +2,8 @@ import { ReactNode, createContext, useState } from "react";
 
 interface CartContextType {
   cart: string[];
-  addProductToCart: (id: string) => void;
-  removeProductFromCart: (id: string) => void;
-  checkIfItemAlreadyExists: (id: string) => boolean;
+  addProductToCart: (priceId: string) => void;
+  checkIfItemAlreadyExists: (priceId: string) => boolean;
 }
 
 export const CartContext = createContext({} as CartContextType);
@@ -16,21 +15,14 @@ interface CartContextProviderProps {
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cart, setCart] = useState<string[]>([]);
 
-  function addProductToCart(id: string) {
-    console.log(id);
-    if (!cart.includes(id)) {
-      setCart((previousState) => [...previousState, id]);
+  function addProductToCart(priceId: string) {
+    if (!cart.includes(priceId)) {
+      setCart((previousState) => [...previousState, priceId]);
     }
-
-    console.log(cart);
   }
 
-  function removeProductFromCart(id: string) {
-    setCart((state) => state.filter((productId) => productId !== id));
-  }
-
-  function checkIfItemAlreadyExists(id: string) {
-    return cart.includes(id);
+  function checkIfItemAlreadyExists(priceId: string) {
+    return cart.includes(priceId);
   }
 
   return (
@@ -38,7 +30,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       value={{
         cart,
         addProductToCart,
-        removeProductFromCart,
         checkIfItemAlreadyExists,
       }}
     >

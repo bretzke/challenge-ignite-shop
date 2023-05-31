@@ -8,9 +8,9 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
 import Image from "next/image";
-import axios from "axios";
-import { useState } from "react";
+import { useContext } from "react";
 import Head from "next/head";
+import { CartContext } from "../../contexts/CartContext";
 
 interface ProductProps {
   product: {
@@ -24,29 +24,13 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
+  const { addProductToCart, checkIfItemAlreadyExists } =
+    useContext(CartContext);
+
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <p>Loading</p>;
-  }
-
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true);
-
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      setIsCreatingCheckoutSession(false);
-      alert("Falha ao redirecionar ao checkout");
-    }
   }
 
   return (
@@ -72,10 +56,10 @@ export default function Product({ product }: ProductProps) {
 
           <button
             className="primary"
-            onClick={handleBuyProduct}
-            disabled={isCreatingCheckoutSession}
+            onClick={() => addProductToCart(product.defaultPriceId)}
+            disabled={checkIfItemAlreadyExists(product.id)}
           >
-            Comprar agora
+            Colocar na sacola
           </button>
         </ProductDetails>
       </ProductContainer>
